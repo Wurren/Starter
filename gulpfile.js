@@ -17,8 +17,8 @@ var  gulp           = require('gulp'),
 */
 
 var onError = function (err) {  
-	gutil.beep();
 	console.log(err);
+	this.emit('end');
 };
 
 
