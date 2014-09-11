@@ -8,6 +8,7 @@
           "gulp-uglify": "*",
           "gulp-concat": "*",
           "gulp-rename": "*",
-          "gulp-livereload" : "*"
+          "gulp-livereload" : "*",
+          "gulp-plumber" : "*"
      }
 }
