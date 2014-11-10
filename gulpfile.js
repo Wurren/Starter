@@ -6,8 +6,8 @@ var  gulp           = require('gulp'),
      uglify         = require('gulp-uglify'),
      concat         = require('gulp-concat'),
      rename         = require('gulp-rename'),
-     plumber 		= require('gulp-plumber'),
-     webserver 	= require('gulp-webserver');
+     plumber        = require('gulp-plumber'),
+     webserver      = require('gulp-webserver');
 
 
 /*
@@ -17,8 +17,8 @@ var  gulp           = require('gulp'),
 */
 
 var onError = function (err) {  
-	console.log(err);
-	this.emit('end');
+     console.log(err);
+     this.emit('end');
 };
 
 
@@ -31,9 +31,9 @@ var onError = function (err) {
 
 gulp.task('less', function() {
      return gulp.src('less/style.less')
-		.pipe(plumber({
-			errorHandler: onError
-		}))
+          .pipe(plumber({
+               errorHandler: onError
+          }))
           .pipe(less())
           .pipe(cssmin())
           .pipe(gulp.dest('css'))
@@ -50,9 +50,9 @@ gulp.task('less', function() {
 
 gulp.task('uglify', function() {
      return gulp.src('js/src/*.js')
-		.pipe(plumber({
-			errorHandler: onError
-		}))
+          .pipe(plumber({
+               errorHandler: onError
+          }))
           .pipe(concat('main.js'))
           .pipe(rename('main.min.js'))
           .pipe(uglify())
@@ -82,12 +82,12 @@ gulp.task('watch', function() {
 */
 
 gulp.task('webserver', function() {
-  gulp.src('.')
-	.pipe(webserver({
-		livereload: true,
-		directoryListing: false,
-		open: true
-	}));
+     return gulp.src('.')
+          .pipe(webserver({
+               livereload: true,
+               directoryListing: false,
+               open: true
+          }));
 });
 
 
