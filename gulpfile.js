@@ -7,7 +7,7 @@ var  gulp           = require('gulp'),
      concat         = require('gulp-concat'),
      rename         = require('gulp-rename'),
      plumber 		= require('gulp-plumber'),
-     livereload     = require('gulp-livereload');
+     webserver 	= require('gulp-webserver');
 
 
 /*
@@ -61,6 +61,7 @@ gulp.task('uglify', function() {
 });
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Watch Task
@@ -70,9 +71,33 @@ gulp.task('uglify', function() {
 gulp.task('watch', function() {
      gulp.watch('less/*.less', ['less']);
      gulp.watch('js/src/*.js', ['uglify']);
-     var server = livereload();
-     gulp.watch(['css/*.css', 'js/*.js', '*.html']).on('change', function(file) {
-          server.changed('*.html');
-     });
 });
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Server
+|--------------------------------------------------------------------------
+*/
+
+gulp.task('webserver', function() {
+  gulp.src('.')
+	.pipe(webserver({
+		livereload: true,
+		directoryListing: false,
+		open: true
+	}));
+});
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Register Tasks
+|--------------------------------------------------------------------------
+*/
+
+gulp.task('run', ['webserver','watch']);
+
 
