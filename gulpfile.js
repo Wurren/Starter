@@ -1,6 +1,6 @@
 var  gulp           = require('gulp'),
-     less           = require('gulp-less'),
-     cssmin         = require('gulp-minify-css'),
+     sass           = require('gulp-sass'),
+     cssmin         = require('gulp-clean-css'),
      notify         = require('gulp-notify'),
      path           = require('path'),
      uglify         = require('gulp-uglify'),
@@ -29,15 +29,15 @@ var onError = function (err) {
 |--------------------------------------------------------------------------
 */
 
-gulp.task('less', function() {
-     return gulp.src('less/style.less')
+gulp.task('scss', function() {
+     return gulp.src('scss/style.scss')
           .pipe(plumber({
                errorHandler: onError
           }))
-          .pipe(less())
+          .pipe(sass())
           .pipe(cssmin())
           .pipe(gulp.dest('css'))
-          .pipe(notify({ message: 'Less - Done!'}));
+          .pipe(notify({ message: 'SCSS - Done!'}));
 });
 
 
@@ -69,7 +69,7 @@ gulp.task('uglify', function() {
 */
 
 gulp.task('watch', function() {
-     gulp.watch('less/*.less', ['less']);
+     gulp.watch('scss/**/*.scss', ['scss']);
      gulp.watch('js/src/*.js', ['uglify']);
 });
 
