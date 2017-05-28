@@ -9,9 +9,9 @@ Simple as ``npm install``. Make sure you have gulp installed globally beforehand
 Gulp comes with 3 tasks:
 
 ```
-gulp less
+gulp scss
 ```
-for compiling LESS to CSS, minifying and saving to /CSS/style.css
+for compiling SCSS to CSS, minifying and saving to /CSS/style.css
 ```
 gulp uglify
 ```

@@ -58,13 +58,26 @@ $grid-float-breakpoint: 768px;
 
 /*
 |--------------------------------------------------------------------------
-| Components
+| Libraries
 |--------------------------------------------------------------------------
 */
 
 @import 'libs/normalize.scss';
 @import 'libs/preboot.scss';
 @import 'libs/plugins.scss';
+
+
+/*
+|--------------------------------------------------------------------------
+| Components
+|--------------------------------------------------------------------------
+*/
+
+@import 'components/layout.scss';
+@import 'components/type.scss';
+@import 'components/header.scss';
+@import 'components/footer.scss';
+
 
 /*
 |--------------------------------------------------------------------------

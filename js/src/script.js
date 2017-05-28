@@ -7,6 +7,6 @@
 */
 
 
-$(function() {
-
-});
+ready(function() {
+    console.log('let\'s get schwiftyyyyyyyy!')
+})

@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "dev" : "gulp run",
+    "dev:watch" : "gulp watch"
+  },
+  "author": "Warren Haskins <warrenhaskins@gmail.com> (http://www.villainyhq.com/)",
   "devDependencies": {
     "gulp": "3.9.1",
     "gulp-clean-css": "^2.2.1",

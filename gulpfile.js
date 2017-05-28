@@ -30,7 +30,7 @@ var onError = function (err) {
 */
 
 gulp.task('scss', function() {
-     return gulp.src('scss/style.scss')
+     return gulp.src('scss/main.scss')
           .pipe(plumber({
                errorHandler: onError
           }))
@@ -53,8 +53,7 @@ gulp.task('uglify', function() {
           .pipe(plumber({
                errorHandler: onError
           }))
-          .pipe(concat('main.js'))
-          .pipe(rename('main.min.js'))
+          .pipe(concat('main.min.js'))
           .pipe(uglify())
           .pipe(gulp.dest('js'))
           .pipe(notify({ message: 'JS - Done!' }))
