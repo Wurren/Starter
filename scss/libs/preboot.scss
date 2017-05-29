@@ -370,3 +370,25 @@
     background-size: $width-1x $height-1x;
   }
 }
+
+@mixin flexbox() {
+  display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+  display: -ms-flexbox;  /* TWEENER - IE 10 */
+  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+  display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+}
+
+@mixin flex(context, percentage) {
+  -webkit-box-flex: context;   /* OLD - iOS 6-, Safari 3.1-6 */
+  width: percentage;           /* For old syntax, otherwise collapses. */
+  -webkit-flex: context;       /* Safari 6.1+. iOS 7.1+, BB10 */
+  -ms-flex: context;           /* IE 10 */
+  flex: context;               /* NEW, Spec - Firefox, Chrome, Opera */
+}
+
+@mixin coverbg(bg) {
+  background-image: url(bg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
