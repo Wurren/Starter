@@ -1,14 +1,17 @@
-var  gulp           = require('gulp'),
-     sass           = require('gulp-sass'),
-     cssmin         = require('gulp-clean-css'),
-     notify         = require('gulp-notify'),
-     path           = require('path'),
-     uglify         = require('gulp-uglify'),
-     concat         = require('gulp-concat'),
-     rename         = require('gulp-rename'),
-     plumber        = require('gulp-plumber'),
-     webserver      = require('gulp-webserver');
-
+var gulp = require("gulp"),
+    sass = require("gulp-sass"),
+    cssmin = require("gulp-clean-css"),
+    notify = require("gulp-notify"),
+    path = require("path"),
+    uglify = require("gulp-uglify"),
+    concat = require("gulp-concat"),
+    rename = require("gulp-rename"),
+    plumber = require("gulp-plumber"),
+    webserver = require("gulp-webserver"),
+    webpack = require("webpack-stream"),
+    named = require("vinyl-named"),
+    webpackconfig = require("./webpack.config.js"),
+    imagemin = require("gulp-imagemin");
 
 /*
 |--------------------------------------------------------------------------
@@ -16,31 +19,39 @@ var  gulp           = require('gulp'),
 |--------------------------------------------------------------------------
 */
 
-var onError = function (err) {  
-     console.log(err);
-     this.emit('end');
+var onError = err => {
+    console.log(err);
+    this.emit("end");
 };
-
-
 
 /*
 |--------------------------------------------------------------------------
-| Compile Less
+| Compile SCSS
 |--------------------------------------------------------------------------
 */
 
-gulp.task('scss', function() {
-     return gulp.src('scss/main.scss')
-          .pipe(plumber({
-               errorHandler: onError
-          }))
-          .pipe(sass())
-          .pipe(cssmin())
-          .pipe(gulp.dest('css'))
-          .pipe(notify({ message: 'SCSS - Done!'}));
+gulp.task("scss", () => {
+    gulp
+        .src("src/scss/main.scss")
+        .pipe(
+            plumber({
+                errorHandler: onError
+            })
+        )
+        .pipe(sass())
+        .pipe(
+            cssmin({ debug: true }, details => {
+                console.log(
+                    `${details.name} Before: ${details.stats.originalSize}`
+                );
+                console.log(
+                    `${details.name} After: ${details.stats.minifiedSize}`
+                );
+            })
+        )
+        .pipe(gulp.dest("dist/css"))
+        .pipe(notify({ message: "SCSS - Done!" }));
 });
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -48,18 +59,27 @@ gulp.task('scss', function() {
 |--------------------------------------------------------------------------
 */
 
-gulp.task('uglify', function() {
-     return gulp.src('js/src/*.js')
-          .pipe(plumber({
-               errorHandler: onError
-          }))
-          .pipe(concat('main.min.js'))
-          .pipe(uglify())
-          .pipe(gulp.dest('js'))
-          .pipe(notify({ message: 'JS - Done!' }))
+gulp.task("webpack", () => {
+    gulp
+        .src(["src/js/main.js"])
+        .pipe(named())
+        .pipe(webpack(webpackconfig))
+        .pipe(gulp.dest("dist/js"))
+        .pipe(notify({ message: "JS - Done!" }));
 });
 
+/*
+|--------------------------------------------------------------------------
+| Images
+|--------------------------------------------------------------------------
+*/
 
+gulp.task("images", () =>
+    gulp
+        .src("src/img/*")
+        .pipe(imagemin())
+        .pipe(gulp.dest("dist/img"))
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -67,12 +87,11 @@ gulp.task('uglify', function() {
 |--------------------------------------------------------------------------
 */
 
-gulp.task('watch', function() {
-     gulp.watch('scss/**/*.scss', ['scss']);
-     gulp.watch('js/src/*.js', ['uglify']);
+gulp.task("watch", () => {
+    gulp.watch("src/scss/**/*.scss", ["scss"]);
+    gulp.watch("src/js/*.js", ["webpack"]);
+    gulp.watch("src/img/**/*", ["images"]);
 });
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -80,16 +99,15 @@ gulp.task('watch', function() {
 |--------------------------------------------------------------------------
 */
 
-gulp.task('webserver', function() {
-     return gulp.src('.')
-          .pipe(webserver({
-               livereload: true,
-               directoryListing: false,
-               open: true
-          }));
+gulp.task("webserver", () => {
+    return gulp.src(".").pipe(
+        webserver({
+            livereload: true,
+            directoryListing: false,
+            open: true
+        })
+    );
 });
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -97,6 +115,5 @@ gulp.task('webserver', function() {
 |--------------------------------------------------------------------------
 */
 
-gulp.task('run', ['webserver','watch']);
-
-
+gulp.task("run", ["webserver", "watch"]);
+gulp.task("build", ["scss", "webpack", "images"]);

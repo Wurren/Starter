@@ -1,12 +1,11 @@
-
-
 /*
 |--------------------------------------------------------------------------
-| Script
+| Go Get 'Em Tiger!
 |--------------------------------------------------------------------------
 */
 
+const Logger = (quote = "?") => {
+    console.log(`"All Your Base Are Belong To Us!" - ${quote}`);
+};
 
-ready(function() {
-    console.log('let\'s get schwiftyyyyyyyy!')
-})
+Logger("CATS");
